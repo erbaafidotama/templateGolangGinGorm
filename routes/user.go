@@ -31,16 +31,16 @@ func GetUser(c *gin.Context) {
 }
 
 func PostUser(c *gin.Context) {
-
 	// convert string date to date db
 	dateStr := c.PostForm("date_birth")
-	i, _ := time.Parse(time.RFC3339, dateStr)
+	format := "2006-01-02"
+	date, _ := time.Parse(format, dateStr)
 
 	// make object from form body
 	items := models.User{
 		NIK:       c.PostForm("nik"),
 		FullName:  c.PostForm("full_name"),
-		DateBirth: i,
+		DateBirth: date,
 	}
 
 	// crete data to db

@@ -25,6 +25,8 @@ func InitDB() {
 		panic("failed to connect database")
 	}
 
-	// migrate table user
+	// migrate table
 	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.Item{})
+	DB.AutoMigrate(&models.TransactionItem{})
 }

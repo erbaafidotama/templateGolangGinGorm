@@ -8,8 +8,9 @@ import (
 
 type User struct {
 	gorm.Model
-	NIK       string
-	FullName  string
-	DateBirth time.Time
-	AdminRole bool `gorm:"default:0"`
+	TransactionItem []TransactionItem
+	NIK             string
+	FullName        string
+	DateBirth       time.Time `json:"date_birth"`
+	AdminRole       bool      `gorm:"default:0"`
 }
