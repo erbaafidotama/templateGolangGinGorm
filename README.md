@@ -11,6 +11,13 @@ go run server.go
 ```
 
 ## To do
-- Create Function Update User.
-- Create Function Delete User.
-- Create Middleware
+- :white_check_mark: Create Function Update User
+- :white_check_mark: Create Function Delete User
+- :heavy_check_mark: Create Function Login User with JWT
+- :heavy_check_mark: Create Middleware - Create JWT
+- :heavy_check_mark: Create Middleware - Auth JWT
+
+
+### Note
+:heavy_check_mark: is Complete<br/>
+:white_check_mark: is not done
