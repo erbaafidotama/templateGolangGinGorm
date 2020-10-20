@@ -11,6 +11,8 @@ go run server.go
 ```
 
 ## To do
-- Create Function Update User.
-- Create Function Delete User.
-- Create Middleware
+- [] Create Function Update User
+- [] Create Function Delete User
+- [x] Create Function Login User with JWT
+- [x] Create Middleware - Create JWT
+- [x] Create Middleware - Auth JWT
