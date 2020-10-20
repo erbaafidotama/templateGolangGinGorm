@@ -16,3 +16,8 @@ go run server.go
 - :heavy_check_mark: Create Function Login User with JWT
 - :heavy_check_mark: Create Middleware - Create JWT
 - :heavy_check_mark: Create Middleware - Auth JWT
+
+
+### Note
+:heavy_check_mark: is Complete
+:white_check_mark: is not done
