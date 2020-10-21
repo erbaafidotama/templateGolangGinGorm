@@ -1,6 +1,5 @@
-# sewaAset
-Backend for Sewa Aset application.
-Using Golang.
+# templateGolangGinGorm
+Template Strcuture Project using Golang with Gin and Gorm (MySQL)
 
 ## Installation
 1. Open file .env
@@ -22,4 +21,4 @@ go run server.go
 ### Note
 :heavy_check_mark: is Complete<br/>
 :white_check_mark: is not done
-# templateGolangGinGorm
+
