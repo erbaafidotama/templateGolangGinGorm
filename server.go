@@ -18,9 +18,11 @@ func main() {
 	{
 		sewaAset := v1.Group("/sewaAset") // /api/v1/sewaAset
 		{
-			sewaAset.POST("/login", routes.Login)                       // /api/v1/sewaAset/login
-			sewaAset.GET("/users", middleware.IsAuth(), routes.GetUser) // /api/v1/sewaAset/users
-			sewaAset.POST("/users", routes.PostUser)                    // /api/v1/sewaAset/users
+			sewaAset.POST("/login", routes.Login)                                 // /api/v1/sewaAset/login
+			sewaAset.GET("/users", middleware.IsAuth(), routes.GetUser)           // /api/v1/sewaAset/users
+			sewaAset.POST("/users", middleware.IsAuth(), routes.PostUser)         // /api/v1/sewaAset/users
+			sewaAset.PUT("/users/:id", middleware.IsAuth(), routes.UpdateUser)    // /api/v1/sewaAset/users/:id
+			sewaAset.DELETE("/users/:id", middleware.IsAuth(), routes.DeleteUser) // /api/v1/sewaAset/users/:id
 		}
 	}
 

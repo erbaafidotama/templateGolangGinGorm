@@ -57,3 +57,62 @@ func PostUser(c *gin.Context) {
 		"data":   items,
 	})
 }
+
+func UpdateUser(c *gin.Context) {
+	var roleAdmin bool
+
+	// get id from url
+	userId := c.Param("id")
+
+	var dataUser models.User
+	if err := config.DB.Where("id = ?", userId).First(&dataUser).Error; err != nil {
+		c.JSON(404, gin.H{
+			"status":  "error",
+			"message": "record not found",
+		})
+		c.Abort()
+		return
+	}
+
+	// convert string date to date db
+	dateStr := c.PostForm("date_birth")
+	format := "2006-01-02"
+	date, _ := time.Parse(format, dateStr)
+
+	if c.PostForm("admin_role") == "true" {
+		roleAdmin = true
+	}
+
+	config.DB.Model(&dataUser).Where("id = ?", userId).Updates(models.User{
+		FullName:  c.PostForm("full_name"),
+		DateBirth: date,
+		AdminRole: roleAdmin,
+	})
+
+	c.JSON(200, gin.H{
+		"status": "Success",
+		"data":   dataUser,
+	})
+}
+
+func DeleteUser(c *gin.Context) {
+	// get id from url
+	userId := c.Param("id")
+
+	var dataUser models.User
+	if err := config.DB.Where("id = ?", userId).First(&dataUser).Error; err != nil {
+		c.JSON(404, gin.H{
+			"status":  "error",
+			"message": "record not found",
+		})
+		c.Abort()
+		return
+	}
+
+	config.DB.Where("id = ?", userId).Delete(&dataUser)
+
+	c.JSON(200, gin.H{
+		"status": "Success Delete",
+		"data":   dataUser,
+	})
+}
