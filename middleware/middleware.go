@@ -53,19 +53,18 @@ func checkJWT(middlewareAdmin bool) gin.HandlerFunc {
 	}
 }
 
-// func createToken(user *models.User) string {
-// 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-// 		"user_id":   user.ID,
-// 		"user_role": user.Role,
-// 		"exp":       time.Now().AddDate(0, 0, 7).Unix(),
-// 		"iat":       time.Now().Unix(),
-// 	})
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
 
-// 	tokenString, err := jwtToken.SignedString([]byte(os.Getenv("JWT_SECRET")))
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
 
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
-
-// 	return tokenString
-// }
+		c.Next()
+	}
+}

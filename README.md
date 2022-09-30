@@ -1,9 +1,9 @@
 # templateGolangGinGorm
-Template Strcuture Project using Golang with Gin and Gorm (MySQL)
+Template Strcuture Project using Golang with Gin and Gorm (MySQL / PostgreSql)
 
 ## Installation
 1. Open file .env
-2. Change DB_NAME with your database name
+2. Change DB_NAME, DB_USERNAME, DB_PASSWORD, DB_PORT with your database setting
 3. run
 ```bash
 go run server.go

@@ -43,7 +43,7 @@ func PostUser(c *gin.Context) {
 
 	// make object from form body
 	items := models.User{
-		NIK:       c.PostForm("nik"),
+		Username:  c.PostForm("nik"),
 		FullName:  c.PostForm("full_name"),
 		DateBirth: date,
 		AdminRole: roleAdmin,

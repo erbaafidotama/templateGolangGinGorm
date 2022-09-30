@@ -12,7 +12,8 @@ func main() {
 	//when server.go start, it will be run function InitDB (connecting to database)
 	config.InitDB()
 
-	router := gin.Default()
+	router := gin.New()
+	router.Use(middleware.CORSMiddleware())
 
 	v1 := router.Group("api/v1") // /api/v1
 	{
@@ -26,5 +27,6 @@ func main() {
 		}
 	}
 
+	// router.Run(":8080") // if you want to run on port 8080
 	router.Run()
 }
