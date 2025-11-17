@@ -15,17 +15,11 @@ func main() {
 	router := gin.New()
 	router.Use(middleware.CORSMiddleware())
 
-	v1 := router.Group("api/v1") // /api/v1
-	{
-		sewaAset := v1.Group("/sewaAset") // /api/v1/sewaAset
-		{
-			sewaAset.POST("/login", routes.Login)                                 // /api/v1/sewaAset/login
-			sewaAset.GET("/users", middleware.IsAuth(), routes.GetUser)           // /api/v1/sewaAset/users
-			sewaAset.POST("/users", middleware.IsAuth(), routes.PostUser)         // /api/v1/sewaAset/users
-			sewaAset.PUT("/users/:id", middleware.IsAuth(), routes.UpdateUser)    // /api/v1/sewaAset/users/:id
-			sewaAset.DELETE("/users/:id", middleware.IsAuth(), routes.DeleteUser) // /api/v1/sewaAset/users/:id
-		}
-	}
+	router.POST("/login", routes.Login)                                 // /api/v1/sewaAset/login
+	router.GET("/users", middleware.IsAuth(), routes.GetUser)           // /api/v1/sewaAset/users
+	router.POST("/users", middleware.IsAuth(), routes.PostUser)         // /api/v1/sewaAset/users
+	router.PUT("/users/:id", middleware.IsAuth(), routes.UpdateUser)    // /api/v1/sewaAset/users/:id
+	router.DELETE("/users/:id", middleware.IsAuth(), routes.DeleteUser) // /api/v1/sewaAset/users/:id
 
 	// router.Run(":8080") // if you want to run on port 8080
 	router.Run()

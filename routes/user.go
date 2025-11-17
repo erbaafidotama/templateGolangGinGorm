@@ -1,11 +1,12 @@
 package routes
 
 import (
-	"sewaAset/config"
-	"sewaAset/models"
-	"time"
+    "sewaAset/config"
+    "sewaAset/models"
+    "time"
 
-	"github.com/gin-gonic/gin"
+    "github.com/gin-gonic/gin"
+    "golang.org/x/crypto/bcrypt"
 )
 
 func GetUser(c *gin.Context) {
@@ -30,24 +31,32 @@ func GetUser(c *gin.Context) {
 }
 
 func PostUser(c *gin.Context) {
-	var roleAdmin bool
-	// convert string date to date db
-	dateStr := c.PostForm("date_birth")
-	format := "2006-01-02"
-	date, _ := time.Parse(format, dateStr)
+    var roleAdmin bool
+    // convert string date to date db
+    dateStr := c.PostForm("date_birth")
+    format := "2006-01-02"
+    date, _ := time.Parse(format, dateStr)
 
 	// check admin role
 	if c.PostForm("admin_role") == "true" {
 		roleAdmin = true
 	}
 
-	// make object from form body
-	items := models.User{
-		Username:  c.PostForm("nik"),
-		FullName:  c.PostForm("full_name"),
-		DateBirth: date,
-		AdminRole: roleAdmin,
-	}
+    // make object from form body
+    pwd := c.PostForm("password")
+    var hashed string
+    if len(pwd) > 0 {
+        h, _ := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
+        hashed = string(h)
+    }
+    items := models.User{
+        Username:  c.PostForm("nik"),
+        FullName:  c.PostForm("full_name"),
+        Password:  hashed,
+        Email:     c.PostForm("email"),
+        DateBirth: date,
+        AdminRole: roleAdmin,
+    }
 
 	// crete data to db
 	config.DB.Create(&items)
