@@ -5,6 +5,7 @@ import (
     "os"
     "sewaAset/config"
     "sewaAset/models"
+    "strconv"
     "time"
 
     "github.com/dgrijalva/jwt-go"
@@ -56,10 +57,18 @@ func Login(c *gin.Context) {
 }
 
 func createToken(user *models.User) string {
+	// Read expiration from env, default to 30 minutes if not set
+	expirationMinutes := 30
+	if envExp := os.Getenv("JWT_EXPIRATION_MINUTES"); envExp != "" {
+		if minutes, err := strconv.Atoi(envExp); err == nil {
+			expirationMinutes = minutes
+		}
+	}
+
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id":    user.ID,
 		"admin_role": user.AdminRole,
-		"exp":        time.Now().AddDate(0, 0, 1).Unix(),
+		"exp":        time.Now().Add(time.Duration(expirationMinutes) * time.Minute).Unix(),
 		"iat":        time.Now().Unix(),
 	})
 

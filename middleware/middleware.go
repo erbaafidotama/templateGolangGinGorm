@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -31,6 +32,15 @@ func checkJWT(middlewareAdmin bool) gin.HandlerFunc {
 			})
 
 			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+				// Check token expiration
+				if exp, ok := claims["exp"].(float64); ok {
+					if time.Now().Unix() > int64(exp) {
+						c.JSON(401, gin.H{"msg": "Token has expired"})
+						c.Abort()
+						return
+					}
+				}
+
 				adminRole := bool(claims["admin_role"].(bool))
 				c.Set("jwt_user_id", claims["user_id"])
 				// c.Set("jwt_isAdmin", claims["user_role"])
@@ -41,7 +51,7 @@ func checkJWT(middlewareAdmin bool) gin.HandlerFunc {
 					return
 				}
 			} else {
-				c.JSON(422, gin.H{"msg": "Invalid Token", "error": err})
+				c.JSON(401, gin.H{"msg": "Invalid or expired token", "error": err})
 				c.Abort()
 				return
 			}
